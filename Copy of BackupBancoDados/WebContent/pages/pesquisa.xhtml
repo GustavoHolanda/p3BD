@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<!-- BOOTSTRAP -->
+	<h:outputStylesheet library="css" name="bootstrap.min.css">
+	</h:outputStylesheet>
+	<h:outputScript library="js" name="bootstrap.min.js"></h:outputScript>
+	<!-- BOOTSTRAP -->
+	<title>Lista de Banco de Dados</title>
+</h:head>
+<h:body>
+	<h:form id="formBackup" align="center">
+		<p:messages closable="true" autoUpdate="true"></p:messages>
+		<p:panel>
+			<h:panelGrid styleClass="table table-responsive bg-info" columns="0">
+				<h1>Bancos de Dados</h1>
+				<p>Essa página exibe informações sobre todos os Bancos de Dados
+					disponíveis em seu SQLServer.</p>
+				<p:dataTable value="${backupMB.listaBackup}" var="backup" id="table">
+					<p:column>	
+		${backup.id}
+		<f:facet name="header">Id</f:facet>
+					</p:column>
+					<p:column>	
+		${backup.nome}
+		<f:facet name="header">Nome</f:facet>
+					</p:column>
+					<p:column>	
+		${backup.criacao}
+		<f:facet name="header">Data da Criação</f:facet>
+					</p:column>
+					<p:column>	
+		${backup.hora}
+		<f:facet name="header">Hora da Criação</f:facet>
+					</p:column>
+					<p:column>
+						<h:commandButton styleClass="btn btn-primary " value="Backup"
+							action="#{backupMB.backup(backup)}"></h:commandButton>
+						<f:facet name="header">Ação</f:facet>
+					</p:column>
+				</p:dataTable>
+				<h:panelGroup styleClass="form-group text-center">
+					<h:panelGroup styleClass="col-xs-offset-2 col-xs-8 ">
+						<h:commandButton styleClass="btn btn-primary " value="Atualizar"
+							action="#{backupMB.atualizarLista()}"></h:commandButton>
+						<f:ajax event="click" execute="@form" render="@form" />
+					</h:panelGroup>
+				</h:panelGroup>
+				<h:panelGroup styleClass="form-group text-center">
+					<h:panelGroup styleClass="col-xs-offset-2 col-xs-8 ">
+						<h:commandButton styleClass="btn btn-primary "
+							value="Realizar full backup" action="#{backupMB.fullBackup()}"></h:commandButton>
+						<f:ajax event="click" execute="@form" render="@form" />
+					</h:panelGroup>
+				</h:panelGroup>
+			</h:panelGrid>
+		</p:panel>
+	</h:form>
+
+	<h:form id="formArquivos" align="center">
+		<p:panel>
+			<h:panelGrid styleClass="table table-responsive bg-info" columns="0">
+				<p:dataTable value="${backupMB.listaArquivos}" var="arquivo"
+					id="table">
+					<p:column>	
+		${arquivo.nome}
+		<f:facet name="header">Nome</f:facet>
+					</p:column>
+					<p:column>	
+		${arquivo.diretorio}
+		<f:facet name="header">Diretório</f:facet>
+					</p:column>
+					<p:column>	
+		${arquivo.diretorioCompleto}
+		<f:facet name="header">Diretório Completo</f:facet>
+					</p:column>
+					<p:column>
+						<h:commandButton styleClass="btn btn-primary " value="Recovery"
+							action="#{backupMB.recovery(arquivo)}"></h:commandButton>
+						<f:facet name="header">Ação</f:facet>
+					</p:column>
+				</p:dataTable>
+					<h:panelGroup styleClass="form-group text-center">
+					<h:panelGroup styleClass="col-xs-offset-2 col-xs-8 ">
+						<h:commandButton styleClass="btn btn-primary " value="Recovery Completo"
+							action="#{backupMB.recoveryCompleto()}"></h:commandButton>
+						<f:ajax event="click" execute="@form" render="@form" />
+					</h:panelGroup>
+				</h:panelGroup>
+			</h:panelGrid>
+		</p:panel>
+	</h:form>
+
+</h:body>
+</html>
